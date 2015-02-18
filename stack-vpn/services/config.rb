@@ -25,8 +25,8 @@ coreo_aws_s3_policy "${VPN_NAME}-bucket-policy" do
       },
       "Action": "s3:*",
       "Resource": [
-        "arn:aws:s3:::${VPN_NAME}/*",
-        "arn:aws:s3:::${VPN_NAME}"
+        "arn:aws:s3:::mswain-${VPN_NAME}/*",
+        "arn:aws:s3:::mswain-${VPN_NAME}"
       ]
     }
   ]
