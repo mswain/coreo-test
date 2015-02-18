@@ -11,3 +11,42 @@
 ## end
 ##
 
+coreo_aws_s3_policy "${VPN_NAME}-bucket-policy" do
+  action :sustain
+  policy_document <<-EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "*"
+      },
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::${VPN_NAME}/*",
+        "arn:aws:s3:::${VPN_NAME}"
+      ]
+    }
+  ]
+}
+EOF
+end
+
+coreo_aws_s3_bucket "${VPN_NAME}" do
+   action :sustain
+   bucket_policies ["${VPN_NAME}-bucket-policy"]
+   tags [
+         "environment=${ENV}"
+        ]
+end
+
+coreo_aws_ec2_autoscaling "${VPN_NAME}" do
+  action :sustain 
+  minimum 1
+  maximum 1
+  server_definition "${VPN_NAME}"
+  subnet "${PRIVATE_SUBNET_NAME}"
+  elbs ["${VPN_NAME}-elb"]
+end
