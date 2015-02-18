@@ -34,7 +34,7 @@ coreo_aws_s3_policy "${VPN_NAME}-bucket-policy" do
 EOF
 end
 
-coreo_aws_s3_bucket "${VPN_NAME}" do
+coreo_aws_s3_bucket "mswain-${VPN_NAME}" do
    action :sustain
    bucket_policies ["${VPN_NAME}-bucket-policy"]
    tags [
